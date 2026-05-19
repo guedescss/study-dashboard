@@ -62,6 +62,7 @@ body {
   color: var(--text-primary);
   font-family: var(--font-main);
   height: 100vh;
+  height: 100dvh;
   overflow: hidden;
   line-height: 1.5;
 }
@@ -100,6 +101,7 @@ a {
   display: flex;
   width: 100vw;
   height: 100vh;
+  height: 100dvh;
   background-image: 
     radial-gradient(at 0% 0%, rgba(124, 58, 237, 0.08) 0px, transparent 50%),
     radial-gradient(at 100% 100%, rgba(59, 130, 246, 0.08) 0px, transparent 50%);
@@ -1364,19 +1366,19 @@ textarea.form-control {
 
   .app-container {
     flex-direction: column;
-    height: 100vh;
+    height: 100dvh;
   }
 
   /* BARRA LATERAL -> BOTTOM NAVIGATION BAR */
   .sidebar {
     width: 100vw;
-    height: 68px;
+    height: calc(68px + env(safe-area-inset-bottom));
     flex-direction: row;
     position: fixed;
     bottom: 0;
     left: 0;
     z-index: 1000;
-    padding: 0 8px;
+    padding: 0 8px env(safe-area-inset-bottom) 8px;
     border-right: none;
     border-top: 1px solid var(--border-color);
     background-color: rgba(12, 14, 24, 0.95);
@@ -1403,6 +1405,14 @@ textarea.form-control {
     align-items: center;
     gap: 4px;
     margin-bottom: 0;
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: none; /* Hide scrollbar for Firefox */
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .sidebar-menu::-webkit-scrollbar {
+    display: none; /* Hide scrollbar for Chrome/Safari */
   }
 
   .menu-item {
@@ -1417,6 +1427,8 @@ textarea.form-control {
     background: transparent;
     border-radius: var(--radius-sm);
     flex: 1;
+    flex-shrink: 0;
+    min-width: 68px;
     text-align: center;
     height: auto;
   }
@@ -1442,12 +1454,12 @@ textarea.form-control {
 
   /* MAIN CONTENT PAD */
   .main-content {
-    height: calc(100vh - 68px);
+    height: calc(100dvh - 68px - env(safe-area-inset-bottom));
     padding-bottom: 0;
   }
 
   .app-header {
-    padding: 16px 20px;
+    padding: calc(16px + env(safe-area-inset-top)) 20px 16px 20px;
   }
 
   .content-body {
@@ -1581,6 +1593,16 @@ textarea.form-control {
   .form-row {
     flex-direction: column;
     gap: 0;
+  }
+
+  .circular-timer-container {
+    width: 210px;
+    height: 210px;
+    margin-bottom: 24px;
+  }
+  
+  .timer-card {
+    padding: 24px 16px;
   }
 }
 
