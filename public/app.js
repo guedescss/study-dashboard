@@ -10,6 +10,7 @@ const state = {
   pomodoroLogs: [],
   diaryLogs: [],
   analytics: null,
+  frequency: [],
 
   // Timer State
   timer: {
@@ -86,6 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setupTimerControls();
   setupKanban();
   setupDiaryForm();
+  setupFrequency();
 
   // Mostra a data de hoje formatada
   const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
@@ -94,6 +96,13 @@ document.addEventListener('DOMContentLoaded', () => {
   // Set date field values
   const todayStr = new Date().toISOString().split('T')[0];
   document.getElementById('diary-date').value = todayStr;
+
+  // Set default values for frequency month and year selects
+  const now = new Date();
+  const monthSelect = document.getElementById('frequency-month-select');
+  const yearSelect = document.getElementById('frequency-year-select');
+  if (monthSelect) monthSelect.value = now.getMonth();
+  if (yearSelect) yearSelect.value = now.getFullYear();
 
   // Carrega os dados iniciais
   loadAllData();
@@ -155,12 +164,13 @@ function switchTab(tabName) {
 // ==========================================
 async function loadAllData() {
   try {
-    const [tasksRes, scheduleRes, pomRes, diaryRes, statsRes] = await Promise.all([
+    const [tasksRes, scheduleRes, pomRes, diaryRes, statsRes, freqRes] = await Promise.all([
       fetch('/api/tasks'),
       fetch('/api/schedule'),
       fetch('/api/pomodoros'),
       fetch('/api/diary'),
-      fetch('/api/analytics')
+      fetch('/api/analytics'),
+      fetch('/api/frequency')
     ]);
 
     state.tasks = await tasksRes.json();
@@ -168,6 +178,7 @@ async function loadAllData() {
     state.pomodoroLogs = await pomRes.json();
     state.diaryLogs = await diaryRes.json();
     state.analytics = await statsRes.json();
+    state.frequency = await freqRes.json();
 
     // Atualiza a UI com os dados carregados
     renderUI();
@@ -187,6 +198,7 @@ function renderUI() {
     renderKanban();
   } else if (state.currentTab === 'schedule') {
     renderSchedule();
+    renderFrequencyCalendar();
   } else if (state.currentTab === 'diary') {
     renderDiaryHistory();
     prefillDiaryMetrics();
@@ -955,4 +967,256 @@ function renderDiaryHistory() {
     `;
     container.appendChild(card);
   });
+}
+
+// ==========================================
+// FREQUÊNCIA MENSAL DE ESTUDOS (CHECKLIST)
+// ==========================================
+function setupFrequency() {
+  const monthSelect = document.getElementById('frequency-month-select');
+  const yearSelect = document.getElementById('frequency-year-select');
+  const syncBtn = document.getElementById('btn-sync-frequency');
+
+  if (!monthSelect || !yearSelect || !syncBtn) return;
+
+  monthSelect.addEventListener('change', renderFrequencyCalendar);
+  yearSelect.addEventListener('change', renderFrequencyCalendar);
+  syncBtn.addEventListener('click', syncFrequencyFromLogs);
+}
+
+function renderFrequencyCalendar() {
+  const container = document.getElementById('frequency-calendar-grid');
+  if (!container) return;
+
+  const monthSelect = document.getElementById('frequency-month-select');
+  const yearSelect = document.getElementById('frequency-year-select');
+  if (!monthSelect || !yearSelect) return;
+
+  const month = parseInt(monthSelect.value, 10);
+  const year = parseInt(yearSelect.value, 10);
+  const mesAnoStr = `${year}-${String(month + 1).padStart(2, '0')}`;
+
+  // Procura os dados salvos deste mês
+  const monthData = state.frequency.find(f => f.Mes_Ano === mesAnoStr);
+  const checkedDays = monthData && monthData.Dias_Marcados
+    ? monthData.Dias_Marcados.split(',').map(Number).filter(Boolean)
+    : [];
+
+  container.innerHTML = '';
+
+  // Total de dias no mês selecionado
+  const totalDays = new Date(year, month + 1, 0).getDate();
+
+  // Índice do dia da semana do dia 1 (0 = Domingo, 1 = Segunda...)
+  const firstDayIndex = new Date(year, month, 1).getDay();
+
+  // Renderiza dias em branco para alinhar com o dia da semana correto
+  for (let i = 0; i < firstDayIndex; i++) {
+    const emptyCell = document.createElement('div');
+    emptyCell.className = 'freq-day-cell empty';
+    container.appendChild(emptyCell);
+  }
+
+  // Contexto de hoje para destaque
+  const today = new Date();
+  const isCurrentMonth = today.getMonth() === month && today.getFullYear() === year;
+  const todayDate = today.getDate();
+
+  let studiedCount = 0;
+
+  // Renderiza os dias do mês
+  for (let d = 1; d <= totalDays; d++) {
+    const cell = document.createElement('div');
+    cell.className = 'freq-day-cell';
+    cell.innerText = d;
+
+    const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+
+    // Verifica se possui logs de estudo no diário ou pomodoro
+    const hasDiaryRecord = state.diaryLogs.some(log => log.Data === dateStr && log.Tempo_Liquido !== '0 min' && log.Tempo_Liquido !== '0');
+    const hasPomodoroRecord = state.pomodoroLogs.some(p => p.Data === dateStr && p.Tipo === 'Estudo' && p.Concluido === 'Sim');
+    const hasActivity = hasDiaryRecord || hasPomodoroRecord;
+
+    const isChecked = checkedDays.includes(d);
+
+    if (isChecked) {
+      cell.classList.add('checked');
+      studiedCount++;
+    }
+
+    if (hasActivity) {
+      cell.classList.add('has-activity');
+      const dot = document.createElement('span');
+      dot.className = 'activity-indicator';
+      cell.appendChild(dot);
+      cell.title = "Estudo registrado via Pomodoro/Diário";
+    }
+
+    if (isCurrentMonth && d === todayDate) {
+      cell.classList.add('is-today');
+      cell.title = (cell.title ? cell.title + " | " : "") + "Hoje";
+    }
+
+    // Clique para alternar marcação
+    cell.addEventListener('click', () => {
+      toggleFrequencyDay(mesAnoStr, checkedDays, d);
+    });
+
+    container.appendChild(cell);
+  }
+
+  // Atualiza estatísticas
+  const pct = totalDays > 0 ? Math.round((studiedCount / totalDays) * 100) : 0;
+  document.getElementById('freq-stat-days').innerText = `${studiedCount} / ${totalDays}`;
+  document.getElementById('freq-stat-pct').innerText = `${pct}%`;
+
+  // Calcula sequências (streaks)
+  const { currentStreak, maxStreak } = calculateStreaks(year, month, checkedDays);
+  document.getElementById('freq-stat-streak').innerText = `🔥 ${currentStreak} ${currentStreak === 1 ? 'dia' : 'dias'}`;
+  document.getElementById('freq-stat-max-streak').innerText = `🏆 ${maxStreak} ${maxStreak === 1 ? 'dia' : 'dias'}`;
+}
+
+function calculateStreaks(year, month, checkedDays) {
+  if (checkedDays.length === 0) {
+    return { currentStreak: 0, maxStreak: 0 };
+  }
+
+  let maxStreak = 0;
+  let tempStreak = 0;
+  const totalDays = new Date(year, month + 1, 0).getDate();
+
+  for (let d = 1; d <= totalDays; d++) {
+    if (checkedDays.includes(d)) {
+      tempStreak++;
+      if (tempStreak > maxStreak) {
+        maxStreak = tempStreak;
+      }
+    } else {
+      tempStreak = 0;
+    }
+  }
+
+  // Calcula sequência atual terminando hoje (ou ontem caso hoje ainda não tenha sido marcado)
+  let currentStreak = 0;
+  const today = new Date();
+  if (today.getMonth() === month && today.getFullYear() === year) {
+    const todayDay = today.getDate();
+    let checkDay = todayDay;
+    if (checkedDays.includes(checkDay)) {
+      while (checkedDays.includes(checkDay) && checkDay > 0) {
+        currentStreak++;
+        checkDay--;
+      }
+    } else if (checkedDays.includes(checkDay - 1)) {
+      checkDay = todayDay - 1;
+      while (checkedDays.includes(checkDay) && checkDay > 0) {
+        currentStreak++;
+        checkDay--;
+      }
+    }
+  } else {
+    // Se for mês passado, mostra a sequência com que terminou o mês (se o último dia estava marcado)
+    currentStreak = checkedDays.includes(totalDays) ? tempStreak : 0;
+  }
+
+  return { currentStreak, maxStreak };
+}
+
+async function toggleFrequencyDay(mesAnoStr, checkedDays, day) {
+  let newCheckedDays;
+  if (checkedDays.includes(day)) {
+    newCheckedDays = checkedDays.filter(d => d !== day);
+  } else {
+    newCheckedDays = [...checkedDays, day];
+  }
+
+  newCheckedDays.sort((a, b) => a - b);
+  const diasMarcadosStr = newCheckedDays.join(',');
+
+  try {
+    const res = await fetch('/api/frequency', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        Mes_Ano: mesAnoStr,
+        Dias_Marcados: diasMarcadosStr
+      })
+    });
+
+    if (res.ok) {
+      const updatedRow = await res.json();
+      const idx = state.frequency.findIndex(f => f.Mes_Ano === mesAnoStr);
+      if (idx !== -1) {
+        state.frequency[idx] = updatedRow;
+      } else {
+        state.frequency.push(updatedRow);
+      }
+      renderFrequencyCalendar();
+    }
+  } catch (err) {
+    console.error('Erro ao atualizar frequência:', err);
+  }
+}
+
+async function syncFrequencyFromLogs() {
+  const monthSelect = document.getElementById('frequency-month-select');
+  const yearSelect = document.getElementById('frequency-year-select');
+  if (!monthSelect || !yearSelect) return;
+
+  const month = parseInt(monthSelect.value, 10);
+  const year = parseInt(yearSelect.value, 10);
+  const mesAnoStr = `${year}-${String(month + 1).padStart(2, '0')}`;
+
+  const totalDays = new Date(year, month + 1, 0).getDate();
+  const autoCheckedDays = [];
+
+  for (let d = 1; d <= totalDays; d++) {
+    const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+
+    const hasDiary = state.diaryLogs.some(log => log.Data === dateStr && log.Tempo_Liquido !== '0 min' && log.Tempo_Liquido !== '0');
+    const hasPomodoro = state.pomodoroLogs.some(p => p.Data === dateStr && p.Tipo === 'Estudo' && p.Concluido === 'Sim');
+
+    if (hasDiary || hasPomodoro) {
+      autoCheckedDays.push(d);
+    }
+  }
+
+  if (autoCheckedDays.length === 0) {
+    alert('Nenhum registro de estudo (Diário ou Pomodoro) encontrado para este mês.');
+    return;
+  }
+
+  // Mescla marcações manuais existentes com novos dias auto-detectados
+  const monthData = state.frequency.find(f => f.Mes_Ano === mesAnoStr);
+  const currentChecked = monthData && monthData.Dias_Marcados
+    ? monthData.Dias_Marcados.split(',').map(Number).filter(Boolean)
+    : [];
+
+  const mergedChecked = [...new Set([...currentChecked, ...autoCheckedDays])].sort((a, b) => a - b);
+  const diasMarcadosStr = mergedChecked.join(',');
+
+  try {
+    const res = await fetch('/api/frequency', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        Mes_Ano: mesAnoStr,
+        Dias_Marcados: diasMarcadosStr
+      })
+    });
+
+    if (res.ok) {
+      const updatedRow = await res.json();
+      const idx = state.frequency.findIndex(f => f.Mes_Ano === mesAnoStr);
+      if (idx !== -1) {
+        state.frequency[idx] = updatedRow;
+      } else {
+        state.frequency.push(updatedRow);
+      }
+      alert(`Sincronização concluída! Importados ${autoCheckedDays.length} dias com estudos registrados.`);
+      renderFrequencyCalendar();
+    }
+  } catch (err) {
+    console.error('Erro ao sincronizar frequência com os logs:', err);
+  }
 }

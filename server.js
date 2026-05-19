@@ -15,6 +15,7 @@ const PATH_TASKS_CSV = path.join(__dirname, '../03_Tarefas_de_Estudo/tasks_estud
 const PATH_KANBAN_MD = path.join(__dirname, '../03_Tarefas_de_Estudo/kanban_simples.md');
 const PATH_DIARY_CSV = path.join(__dirname, '../04_Registro_do_Que_Foi_Estudado/diario_de_estudo.csv');
 const PATH_HISTORY_MD = path.join(__dirname, '../04_Registro_do_Que_Foi_Estudado/historico_concluido.md');
+const PATH_FREQUENCY_CSV = path.join(__dirname, '../01_Planejamento_de_Horarios/frequencia_mensal.csv');
 
 // ==========================================
 // AUTO-INICIALIZAÇÃO PARA DEPLOY EM NUVEM
@@ -25,7 +26,8 @@ const directories = [
   path.dirname(PATH_TASKS_CSV),
   path.dirname(PATH_KANBAN_MD),
   path.dirname(PATH_DIARY_CSV),
-  path.dirname(PATH_HISTORY_MD)
+  path.dirname(PATH_HISTORY_MD),
+  path.dirname(PATH_FREQUENCY_CSV)
 ];
 
 directories.forEach(dir => {
@@ -70,6 +72,10 @@ if (!fs.existsSync(PATH_DIARY_CSV)) {
 
 if (!fs.existsSync(PATH_HISTORY_MD)) {
   fs.writeFileSync(PATH_HISTORY_MD, '# Histórico de Estudos Concluídos\n', 'utf8');
+}
+
+if (!fs.existsSync(PATH_FREQUENCY_CSV)) {
+  fs.writeFileSync(PATH_FREQUENCY_CSV, 'Mes_Ano,Dias_Marcados\n', 'utf8');
 }
 
 // ==========================================
@@ -466,6 +472,50 @@ app.get('/api/diary', (req, res) => {
     res.json(parsed);
   } catch (error) {
     res.status(500).json({ error: 'Erro ao carregar diário: ' + error.message });
+  }
+});
+
+// --- Frequência Mensal de Estudos ---
+app.get('/api/frequency', (req, res) => {
+  try {
+    if (!fs.existsSync(PATH_FREQUENCY_CSV)) {
+      return res.json([]);
+    }
+    const data = fs.readFileSync(PATH_FREQUENCY_CSV, 'utf8');
+    const parsed = parseCSV(data);
+    res.json(parsed);
+  } catch (error) {
+    res.status(500).json({ error: 'Erro ao carregar frequência: ' + error.message });
+  }
+});
+
+app.post('/api/frequency', (req, res) => {
+  try {
+    const { Mes_Ano, Dias_Marcados } = req.body;
+    let rows = [];
+    if (fs.existsSync(PATH_FREQUENCY_CSV)) {
+      const data = fs.readFileSync(PATH_FREQUENCY_CSV, 'utf8');
+      rows = parseCSV(data);
+    }
+    
+    const index = rows.findIndex(r => r.Mes_Ano === Mes_Ano);
+    const newRow = {
+      Mes_Ano,
+      Dias_Marcados: Dias_Marcados || ''
+    };
+    
+    if (index !== -1) {
+      rows[index] = newRow;
+    } else {
+      rows.push(newRow);
+    }
+    
+    const headers = ['Mes_Ano', 'Dias_Marcados'];
+    fs.writeFileSync(PATH_FREQUENCY_CSV, toCSV(headers, rows), 'utf8');
+    
+    res.json(newRow);
+  } catch (error) {
+    res.status(500).json({ error: 'Erro ao salvar frequência: ' + error.message });
   }
 });
 

@@ -493,6 +493,77 @@
               </div>
             </div>
           </div>
+
+          <!-- Frequência Mensal de Estudos (Checklist) -->
+          <div class="panel glass-panel" style="margin-top: 24px;">
+            <div class="panel-header frequency-header">
+              <div class="header-left">
+                <h3>📅 Frequência Mensal de Estudos</h3>
+                <span class="help-text">Monitore e marque os dias que está rolando estudo</span>
+              </div>
+              <div class="header-right frequency-controls">
+                <select id="frequency-month-select" class="form-control inline-select">
+                  <option value="0">Janeiro</option>
+                  <option value="1">Fevereiro</option>
+                  <option value="2">Março</option>
+                  <option value="3">Abril</option>
+                  <option value="4">Maio</option>
+                  <option value="5">Junho</option>
+                  <option value="6">Julho</option>
+                  <option value="7">Agosto</option>
+                  <option value="8">Setembro</option>
+                  <option value="9">Outubro</option>
+                  <option value="10">Novembro</option>
+                  <option value="11">Dezembro</option>
+                </select>
+                <select id="frequency-year-select" class="form-control inline-select">
+                  <option value="2025">2025</option>
+                  <option value="2026">2026</option>
+                  <option value="2027">2027</option>
+                </select>
+                <button class="btn btn-secondary btn-sm" id="btn-sync-frequency" title="Sincronizar com os registros de Diário e Pomodoro" style="padding: 6px 12px; font-size: 11px;">
+                  🔄 Importar Registros
+                </button>
+              </div>
+            </div>
+            <div class="panel-body">
+              <div class="frequency-stats-row">
+                <div class="frequency-stat-item">
+                  <span class="stat-label">Dias Estudados</span>
+                  <span class="stat-value" id="freq-stat-days">0 / 0</span>
+                </div>
+                <div class="frequency-stat-item">
+                  <span class="stat-label">Aproveitamento</span>
+                  <span class="stat-value" id="freq-stat-pct">0%</span>
+                </div>
+                <div class="frequency-stat-item">
+                  <span class="stat-label">Sequência Atual</span>
+                  <span class="stat-value" id="freq-stat-streak">🔥 0 dias</span>
+                </div>
+                <div class="frequency-stat-item">
+                  <span class="stat-label">Maior Sequência</span>
+                  <span class="stat-value" id="freq-stat-max-streak">🏆 0 dias</span>
+                </div>
+              </div>
+
+              <!-- Calendário de Frequência -->
+              <div class="frequency-calendar-wrapper">
+                <div class="frequency-calendar-grid-header">
+                  <span>Dom</span><span>Seg</span><span>Ter</span><span>Qua</span><span>Qui</span><span>Sex</span><span>Sáb</span>
+                </div>
+                <div class="frequency-calendar-grid" id="frequency-calendar-grid">
+                  <!-- Preenchido via Javascript -->
+                  <div class="loading-item">Carregando calendário...</div>
+                </div>
+              </div>
+
+              <div class="frequency-legend">
+                <span class="legend-item"><span class="legend-color color-checked"></span> Estudado (Marcado)</span>
+                <span class="legend-item"><span class="legend-color color-activity"></span> Registro Existente (Pomodoro/Diário)</span>
+                <span class="legend-item"><span class="legend-color color-both"></span> Marcado + Registro</span>
+              </div>
+            </div>
+          </div>
         </section>
 
         <!-- ==================== ABA: DIÁRIO DE ESTUDOS ==================== -->

@@ -1629,3 +1629,239 @@ textarea.form-control {
   font-size: 12px;
   padding: 12px 0;
 }
+
+/* ==========================================================================
+   FREQUÊNCIA MENSAL DE ESTUDOS (CHECKLIST)
+   ========================================================================== */
+
+.frequency-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.frequency-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.inline-select {
+  width: auto !important;
+  display: inline-block;
+  padding: 6px 12px;
+  background: rgba(8, 10, 17, 0.6);
+  border: 1px solid var(--border-color);
+  font-size: 13px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+}
+
+.frequency-stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+  background: rgba(255, 255, 255, 0.01);
+  border: 1px solid var(--border-color);
+  padding: 16px;
+  border-radius: var(--radius-md);
+}
+
+.frequency-stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.frequency-stat-item .stat-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 4px;
+  letter-spacing: 0.5px;
+}
+
+.frequency-stat-item .stat-value {
+  font-size: 18px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.frequency-calendar-wrapper {
+  background: rgba(8, 10, 17, 0.3);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.frequency-calendar-grid-header {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+  text-align: center;
+  font-size: 11px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.frequency-calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+}
+
+.freq-day-cell {
+  position: relative;
+  aspect-ratio: 1; /* Torna as células perfeitamente quadradas */
+  min-height: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  transition: var(--transition);
+  user-select: none;
+}
+
+.freq-day-cell.empty {
+  background: transparent;
+  border-color: transparent;
+  cursor: default;
+  pointer-events: none;
+}
+
+.freq-day-cell:not(.empty):hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: var(--border-color-hover);
+  color: #ffffff;
+  transform: scale(1.05);
+}
+
+/* Estado Marcado (Estudado) */
+.freq-day-cell.checked {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.35) 0%, rgba(59, 130, 246, 0.35) 100%);
+  border-color: var(--primary);
+  color: #ffffff;
+  box-shadow: 0 0 8px rgba(139, 92, 246, 0.2);
+}
+
+/* Possui atividade no Diário/Pomodoro */
+.freq-day-cell.has-activity {
+  border-color: rgba(16, 185, 129, 0.45);
+}
+
+/* Indicador de atividade */
+.freq-day-cell .activity-indicator {
+  position: absolute;
+  bottom: 4px;
+  width: 5px;
+  height: 5px;
+  background-color: var(--success);
+  border-radius: 50%;
+  box-shadow: 0 0 6px var(--success-glow);
+}
+
+/* Ambos: Marcado + Registro */
+.freq-day-cell.checked.has-activity {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.45) 0%, rgba(139, 92, 246, 0.45) 100%);
+  border-color: var(--success);
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
+}
+
+/* Dia atual destacado */
+.freq-day-cell.is-today {
+  outline: 2px solid var(--info);
+  outline-offset: 1px;
+}
+
+.frequency-legend {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 16px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.legend-color {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  display: inline-block;
+}
+
+.color-checked {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.4) 0%, rgba(59, 130, 246, 0.4) 100%);
+  border: 1px solid var(--primary);
+}
+
+.color-activity {
+  background: transparent;
+  border: 1px solid rgba(16, 185, 129, 0.6);
+  position: relative;
+}
+.color-activity::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: var(--success);
+}
+
+.color-both {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.5) 0%, rgba(139, 92, 246, 0.5) 100%);
+  border: 1px solid var(--success);
+}
+
+/* Responsividade Mobile para a Frequência */
+@media (max-width: 768px) {
+  .frequency-stats-row {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    padding: 12px;
+  }
+  
+  .frequency-calendar-wrapper {
+    padding: 10px;
+  }
+  
+  .freq-day-cell {
+    font-size: 12px;
+    min-height: 36px;
+  }
+  
+  .frequency-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .frequency-controls {
+    justify-content: space-between;
+    width: 100%;
+  }
+}
