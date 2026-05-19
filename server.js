@@ -17,6 +17,62 @@ const PATH_DIARY_CSV = path.join(__dirname, '../04_Registro_do_Que_Foi_Estudado/
 const PATH_HISTORY_MD = path.join(__dirname, '../04_Registro_do_Que_Foi_Estudado/historico_concluido.md');
 
 // ==========================================
+// AUTO-INICIALIZAÇÃO PARA DEPLOY EM NUVEM
+// ==========================================
+const directories = [
+  path.dirname(PATH_SCHEDULE),
+  path.dirname(PATH_POMODORO),
+  path.dirname(PATH_TASKS_CSV),
+  path.dirname(PATH_KANBAN_MD),
+  path.dirname(PATH_DIARY_CSV),
+  path.dirname(PATH_HISTORY_MD)
+];
+
+directories.forEach(dir => {
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, { recursive: true });
+  }
+});
+
+if (!fs.existsSync(PATH_SCHEDULE)) {
+  const defaultSchedule = `Dia,Horario_Inicio,Horario_Fim,Bloco,Objetivo,Status,Observacoes
+Segunda,14:00,16:00,Matemática,Estudo principal,Planejado,
+Segunda,18:00,20:00,Português,Questoes ou revisao,Planejado,
+Terca,14:00,16:00,Banco de Dados,Estudo principal,Planejado,
+Terca,18:00,19:30,Estrutura de Dados e Algoritmos,Estudo principal,Planejado,
+Quarta,14:00,16:00,Conhecimentos Bancários,Estudo principal,Planejado,
+Quarta,18:00,19:00,Atualidades Mercado Financeiro,Estudo principal,Planejado,
+Quinta,14:00,16:00,Probabilidade e Estatística,Estudo principal,Planejado,
+Quinta,18:00,19:00,Aprendizagem de Máquina,Estudo principal,Planejado,
+Sexta,14:00,15:00,Big Data,Estudo principal,Planejado,
+Sexta,16:00,17:00,Ferramentas e Linguagens,Estudo principal,Planejado,
+Sabado,9:00,11:00,Redação Discursiva,Simulado ou questoes,Planejado,
+Domingo,18:00,18:30,Fechamento,Planejar proxima semana,Planejado
+`;
+  fs.writeFileSync(PATH_SCHEDULE, defaultSchedule, 'utf8');
+}
+
+if (!fs.existsSync(PATH_POMODORO)) {
+  fs.writeFileSync(PATH_POMODORO, 'Data,Inicio,Fim,Duracao_Minutos,Tipo,Assunto_ou_Tarefa,Concluido,Distrações,Observacoes\n', 'utf8');
+}
+
+if (!fs.existsSync(PATH_TASKS_CSV)) {
+  fs.writeFileSync(PATH_TASKS_CSV, 'ID,Data_Criacao,Tarefa,Origem,Prioridade,Estimativa_Pomodoros,Status,Data_Conclusao,Observacoes\n', 'utf8');
+}
+
+if (!fs.existsSync(PATH_KANBAN_MD)) {
+  fs.writeFileSync(PATH_KANBAN_MD, '# Kanban Simples de Estudo\n\n## A fazer\n- [ ] \n\n## Fazendo hoje\n- [ ] \n\n## Concluido\n- [x] \n\n## Travado / pendente\n- [ ] \n', 'utf8');
+}
+
+if (!fs.existsSync(PATH_DIARY_CSV)) {
+  fs.writeFileSync(PATH_DIARY_CSV, 'Data,Tempo_Liquido,Quantidade_Pomodoros,O_que_foi_estudado,O_que_foi_concluido,Dificuldade,Proximo_Passo\n', 'utf8');
+}
+
+if (!fs.existsSync(PATH_HISTORY_MD)) {
+  fs.writeFileSync(PATH_HISTORY_MD, '# Histórico de Estudos Concluídos\n', 'utf8');
+}
+
+// ==========================================
 // FUNÇÕES AUXILIARES DE PARSE DE CSV
 // ==========================================
 
