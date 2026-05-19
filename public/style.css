@@ -1338,6 +1338,10 @@ textarea.form-control {
   font-weight: 700;
 }
 
+.mobile-footer {
+  display: none;
+}
+
 /* ==========================================================================
    RESPONSIVIDADE & OTIMIZAÇÃO MOBILE
    ========================================================================== */
@@ -1454,7 +1458,7 @@ textarea.form-control {
 
   /* MAIN CONTENT PAD */
   .main-content {
-    height: calc(100dvh - 68px - env(safe-area-inset-bottom));
+    height: 100dvh;
     padding-bottom: 0;
   }
 
@@ -1463,9 +1467,9 @@ textarea.form-control {
   }
 
   .content-body {
-    padding: 16px;
-    height: calc(100% - 70px);
+    padding: 16px 16px calc(88px + env(safe-area-inset-bottom)) 16px;
     overflow-y: auto;
+    flex-grow: 1;
   }
 
   /* CARDS DASHBOARD MOBILE */
@@ -1537,6 +1541,17 @@ textarea.form-control {
   .diary-layout {
     grid-template-columns: 1fr;
     gap: 20px;
+  }
+
+  /* MOBILE FOOTER */
+  .mobile-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 24px 0 calc(24px + env(safe-area-inset-bottom)) 0;
+    border-top: 1px solid var(--border-color);
+    margin-top: 32px;
+    width: 100%;
   }
 }
 
