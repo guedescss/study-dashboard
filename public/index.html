@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Estudos Concurso 2026 | Painel de Foco</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="app-container">
+
+    <!-- BARRA LATERAL (SIDEBAR) -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo-icon"
+          style="background: none; -webkit-text-fill-color: initial; -webkit-background-clip: initial; filter: drop-shadow(0 2px 8px rgba(253, 225, 0, 0.25)); display: flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 6px; overflow: hidden;">
+          <svg viewBox="5 0 44 42" width="34" height="32" style="vertical-align: middle;">
+            <g transform="translate(-293.14287,-491.34933)">
+              <g transform="matrix(2.5247497,0,0,2.5247497,-527.83489,-680.23413)">
+                <!-- Official Yellow Background Bar -->
+                <path d="m 325.17194,480.68496 98.22755,0 0,-16.64551 -98.22755,0 z" fill="#fde100" />
+                <!-- Official Blue Monogram -->
+                <path
+                  d="m 329.75202,470.27969 2.59766,1.7334 3.12011,-2.08008 -1.29882,-0.86915 1.68945,-1.12304 3.6377,2.42675 -5.97657,3.98438 1.29883,0.86914 7.41211,-4.9414 -6.24024,-4.16017 z m 12.48047,4.16015 -2.60253,-1.73339 -3.12013,2.08007 1.29883,0.86425 -1.68946,1.12794 -3.63768,-2.42676 5.97656,-3.98438 -1.29884,-0.86913 -7.40722,4.9414 6.24023,4.16016 z m 0,-6.58692 -1.30371,0.86915 -1.29882,-0.86915 2.60253,-1.7334 z m -12.48047,9.01368 1.29882,-0.86914 1.29884,0.86914 -2.59766,1.7334 z"
+                  fill="#003882" fill-rule="evenodd" />
+              </g>
+            </g>
+          </svg>
+        </div>
+        <div class="logo-text">
+          <h1>Foco 2026</h1>
+          <span>Estudos Concurso</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-menu">
+        <button class="menu-item active" data-tab="dashboard" id="btn-tab-dashboard">
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"
+            stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+            <rect x="3" y="3" width="7" height="9"></rect>
+            <rect x="14" y="3" width="7" height="5"></rect>
+            <rect x="14" y="12" width="7" height="9"></rect>
+            <rect x="3" y="16" width="7" height="5"></rect>
+          </svg>
+          Dashboard
+        </button>
+        <button class="menu-item" data-tab="pomodoro" id="btn-tab-pomodoro">
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"
+            stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+          Timer Pomodoro
+        </button>
+        <button class="menu-item" data-tab="kanban" id="btn-tab-kanban">
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"
+            stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="9" y1="3" x2="9" y2="21"></line>
+            <line x1="15" y1="3" x2="15" y2="21"></line>
+            <line x1="3" y1="9" x2="21" y2="9"></line>
+            <line x1="3" y1="15" x2="21" y2="15"></line>
+          </svg>
+          Quadro Kanban
+        </button>
+        <button class="menu-item" data-tab="schedule" id="btn-tab-schedule">
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"
+            stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="16" y1="2" x2="16" y2="6"></line>
+            <line x1="8" y1="2" x2="8" y2="6"></line>
+            <line x1="3" y1="10" x2="21" y2="10"></line>
+          </svg>
+          Cronograma
+        </button>
+        <button class="menu-item" data-tab="diary" id="btn-tab-diary">
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"
+            stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+            <polyline points="10 9 9 9 8 9"></polyline>
+          </svg>
+          Diário de Estudos
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="active-status">
+          <div class="pulse-indicator"></div>
+          <span>Desenvolvido por Guedescss</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ÁREA PRINCIPAL (MAIN CONTENT) -->
+    <main class="main-content">
+
+      <!-- HEADER -->
+      <header class="app-header">
+        <div class="header-title">
+          <h2 id="current-tab-title">Dashboard Geral</h2>
+          <p id="current-date-display">Carregando data...</p>
+        </div>
+
+        <div class="quick-stats-header">
+          <div class="stat-pill">
+            <span class="icon">⏱️</span>
+            <span class="value" id="header-study-time">0 min</span>
+            <span class="label">Estudo Hoje</span>
+          </div>
+          <div class="stat-pill">
+            <span class="icon">🍅</span>
+            <span class="value" id="header-pomodoros">0</span>
+            <span class="label">Pomodoros</span>
+          </div>
+        </div>
+      </header>
+
+      <div class="content-body">
+
+        <!-- ==================== ABA: DASHBOARD ==================== -->
+        <section id="tab-dashboard" class="tab-pane active">
+          <div class="analytics-grid">
+
+            <div class="card card-gradient-1">
+              <div class="card-body">
+                <span class="card-icon">⚡</span>
+                <h3>Tempo Líquido Hoje</h3>
+                <h2 class="display-val" id="dash-time-today">0 min</h2>
+                <p class="card-desc">Contabilizado de ciclos de estudo Pomodoro.</p>
+              </div>
+            </div>
+
+            <div class="card card-gradient-2">
+              <div class="card-body">
+                <span class="card-icon">🍅</span>
+                <h3>Pomodoros Hoje</h3>
+                <h2 class="display-val" id="dash-pom-today">0</h2>
+                <p class="card-desc">Meta diária recomendada: 6 a 8 ciclos.</p>
+              </div>
+            </div>
+
+            <div class="card card-gradient-3">
+              <div class="card-body">
+                <span class="card-icon">📈</span>
+                <h3>Tempo na Semana</h3>
+                <h2 class="display-val" id="dash-time-week">0 min</h2>
+                <p class="card-desc">Total acumulado nos últimos 7 dias.</p>
+              </div>
+            </div>
+
+            <div class="card card-gradient-4">
+              <div class="card-body">
+                <span class="card-icon">🎯</span>
+                <h3>Tarefas Concluídas</h3>
+                <h2 class="display-val" id="dash-tasks-completed">0 / 0</h2>
+                <p class="card-desc" id="dash-tasks-pct">Aproveitamento de 0% das tarefas criadas.</p>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="dashboard-sections">
+            <div class="dashboard-column">
+
+              <!-- Mini Timer Widget -->
+              <div class="panel glass-panel">
+                <div class="panel-header">
+                  <h3>Timer Rápido</h3>
+                  <button class="btn btn-text" onclick="switchTab('pomodoro')">Abrir Timer Completo ↗</button>
+                </div>
+                <div class="panel-body mini-timer-body">
+                  <div class="mini-timer-display" id="mini-timer-time">25:00</div>
+                  <div class="mini-timer-controls">
+                    <button class="btn btn-primary btn-circle" id="btn-mini-play" title="Iniciar">▶</button>
+                    <button class="btn btn-secondary" id="btn-mini-skip" title="Pular">Pular</button>
+                  </div>
+                  <div class="mini-timer-meta" id="mini-timer-label">Trabalho</div>
+                </div>
+              </div>
+
+              <!-- Distrações Card -->
+              <div class="panel glass-panel">
+                <div class="panel-header">
+                  <h3>Registro de Distrações</h3>
+                </div>
+                <div class="panel-body distraction-body">
+                  <div class="distraction-counter">
+                    <span class="distraction-val" id="dash-distractions-today">0</span>
+                    <span class="distraction-label">Hoje</span>
+                  </div>
+                  <div class="distraction-actions">
+                    <p class="help-text">Perdeu o foco? Clique para monitorar de forma analítica e reduzir distrações.
+                    </p>
+                    <button class="btn btn-warning" id="btn-log-distraction-dash">⚡ Registrar Distração (+1)</button>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="dashboard-column">
+              <!-- Tarefas Importantes -->
+              <div class="panel glass-panel">
+                <div class="panel-header">
+                  <h3>Tarefas Ativas (Kanban)</h3>
+                  <button class="btn btn-text" onclick="switchTab('kanban')">Ver Kanban Completo ↗</button>
+                </div>
+                <div class="panel-body">
+                  <ul class="task-summary-list" id="dash-active-tasks-list">
+                    <!-- Dinâmico -->
+                    <li class="loading-item">Carregando tarefas ativas...</li>
+                  </ul>
+                </div>
+              </div>
+
+              <!-- Planejamento de Hoje -->
+              <div class="panel glass-panel">
+                <div class="panel-header">
+                  <h3>Cronograma de Hoje</h3>
+                  <button class="btn btn-text" onclick="switchTab('schedule')">Ver Semana ↗</button>
+                </div>
+                <div class="panel-body">
+                  <div id="dash-today-schedule-list">
+                    <!-- Dinâmico -->
+                    <p class="loading-item">Carregando cronograma...</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================== ABA: POMODORO ==================== -->
+        <section id="tab-pomodoro" class="tab-pane">
+          <div class="pomodoro-layout">
+
+            <div class="pomodoro-timer-side">
+              <div class="timer-card glass-panel">
+
+                <!-- Circular Timer -->
+                <div class="circular-timer-container">
+                  <svg class="circular-timer" viewBox="0 0 200 200">
+                    <circle class="circle-bg" cx="100" cy="100" r="88" stroke-width="6" fill="transparent" />
+                    <circle class="circle-progress" id="timer-progress-ring" cx="100" cy="100" r="88" stroke-width="8"
+                      fill="transparent" stroke-dasharray="552.92" stroke-dashoffset="0" />
+                  </svg>
+
+                  <div class="timer-info">
+                    <span class="timer-mode-label" id="timer-phase-title">Trabalho</span>
+                    <span class="timer-time" id="timer-clock">25:00</span>
+                    <span class="timer-percentage" id="timer-pct">100%</span>
+                  </div>
+                </div>
+
+                <!-- Timer Presets -->
+                <div class="timer-presets">
+                  <button class="btn btn-preset active" data-preset="study" id="btn-preset-study">🍅 Foco (25m)</button>
+                  <button class="btn btn-preset" data-preset="short" id="btn-preset-short">☕ Pausa Curta (5m)</button>
+                  <button class="btn btn-preset" data-preset="long" id="btn-preset-long">🌴 Pausa Longa (15m)</button>
+                </div>
+
+                <!-- Timer Action Controls -->
+                <div class="timer-controls">
+                  <button class="btn btn-secondary btn-circle-lg" id="btn-timer-reset" title="Reiniciar">
+                    <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2.5"
+                      fill="none">
+                      <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67" />
+                    </svg>
+                  </button>
+
+                  <button class="btn btn-primary btn-circle-xl" id="btn-timer-toggle" title="Iniciar/Pausar">▶</button>
+
+                  <button class="btn btn-secondary btn-circle-lg" id="btn-timer-skip" title="Pular Bloco">
+                    <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2.5"
+                      fill="none">
+                      <polygon points="5 4 15 12 5 20 5 4"></polygon>
+                      <line x1="19" y1="5" x2="19" y2="19"></line>
+                    </svg>
+                  </button>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="pomodoro-settings-side">
+              <!-- Task Linkage Panel -->
+              <div class="panel glass-panel">
+                <div class="panel-header">
+                  <h3>🎯 Vincular a uma Tarefa</h3>
+                </div>
+                <div class="panel-body form-group">
+                  <label for="pomodoro-task-select">Escolha a tarefa que irá estudar agora:</label>
+                  <select id="pomodoro-task-select" class="form-control">
+                    <option value="">-- Estudar sem tarefa específica (Apenas Foco geral) --</option>
+                  </select>
+                  <p class="help-text">Ao vincular, os Pomodoros e as sessões concluídas serão contados especificamente
+                    para esta tarefa no seu banco de dados e Kanban!</p>
+                </div>
+              </div>
+
+              <!-- Live Session Tracker / Distraction Box -->
+              <div class="panel glass-panel">
+                <div class="panel-header">
+                  <h3>⚡ Controle da Sessão Atual</h3>
+                </div>
+                <div class="panel-body session-control-body">
+                  <div class="session-stat-row">
+                    <span>Distrações neste bloco:</span>
+                    <strong class="count-badge text-warning" id="session-distraction-count">0</strong>
+                  </div>
+
+                  <button class="btn btn-warning btn-full" id="btn-log-distraction-timer">
+                    ⚡ Perdi o Foco! Registrar Distração
+                  </button>
+
+                  <div class="sound-control-row">
+                    <label class="switch-container">
+                      <input type="checkbox" id="toggle-ticking-sound">
+                      <span class="slider"></span>
+                      <span>Sons de Foco (Som sintético)</span>
+                    </label>
+                  </div>
+
+                  <div class="form-group" style="margin-top: 15px;">
+                    <label for="pomodoro-notes">Anotações da Sessão (Opcional):</label>
+                    <input type="text" id="pomodoro-notes" placeholder="O que você está estudando neste ciclo?"
+                      class="form-control">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ==================== ABA: KANBAN ==================== -->
+        <section id="tab-kanban" class="tab-pane">
+          <div class="kanban-actions-bar">
+            <div class="kanban-stats">
+              <span class="badge" id="kanban-badge-total">0 Tarefas</span>
+            </div>
+            <button class="btn btn-success" id="btn-open-task-modal">
+              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none"
+                style="margin-right: 5px;">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+              Nova Tarefa de Estudo
+            </button>
+          </div>
+
+          <!-- KANBAN BOARD -->
+          <div class="kanban-board">
+
+            <!-- Coluna: A Fazer -->
+            <div class="kanban-column" id="col-todo" data-status="A fazer">
+              <div class="kanban-column-header">
+                <span class="column-dot dot-todo"></span>
+                <h4>A Fazer</h4>
+                <span class="column-count" id="count-todo">0</span>
+              </div>
+              <div class="kanban-cards-container" id="cards-todo">
+                <!-- Dinâmico -->
+              </div>
+            </div>
+
+            <!-- Coluna: Fazendo Hoje -->
+            <div class="kanban-column" id="col-doing" data-status="Fazendo hoje">
+              <div class="kanban-column-header">
+                <span class="column-dot dot-doing"></span>
+                <h4>Fazendo Hoje</h4>
+                <span class="column-count" id="count-doing">0</span>
+              </div>
+              <div class="kanban-cards-container" id="cards-doing">
+                <!-- Dinâmico -->
+              </div>
+            </div>
+
+            <!-- Coluna: Travado / Pendente -->
+            <div class="kanban-column" id="col-blocked" data-status="Travado / pendente">
+              <div class="kanban-column-header">
+                <span class="column-dot dot-blocked"></span>
+                <h4>Travado / Pendente</h4>
+                <span class="column-count" id="count-blocked">0</span>
+              </div>
+              <div class="kanban-cards-container" id="cards-blocked">
+                <!-- Dinâmico -->
+              </div>
+            </div>
+
+            <!-- Coluna: Concluído -->
+            <div class="kanban-column" id="col-done" data-status="Concluido">
+              <div class="kanban-column-header">
+                <span class="column-dot dot-done"></span>
+                <h4>Concluído</h4>
+                <span class="column-count" id="count-done">0</span>
+              </div>
+              <div class="kanban-cards-container" id="cards-done">
+                <!-- Dinâmico -->
+              </div>
+            </div>
+
+          </div>
+
+          <!-- TASK MODAL -->
+          <div class="modal-overlay" id="task-modal">
+            <div class="modal-card glass-panel">
+              <div class="modal-header">
+                <h3 id="modal-task-title">Criar Nova Tarefa de Estudo</h3>
+                <button class="btn-close-modal" id="btn-close-task-modal">&times;</button>
+              </div>
+              <form id="task-form">
+                <input type="hidden" id="task-id-field">
+
+                <div class="form-group">
+                  <label for="field-task-name">Título da Tarefa / Assunto:*</label>
+                  <input type="text" id="field-task-name" required
+                    placeholder="Ex: Resolver 30 questões de Direito Administrativo" class="form-control">
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group flex-1">
+                    <label for="field-task-priority">Prioridade:</label>
+                    <select id="field-task-priority" class="form-control">
+                      <option value="Alta">🔴 Alta</option>
+                      <option value="Media" selected>🟡 Média</option>
+                      <option value="Baixa">🟢 Baixa</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group flex-1">
+                    <label for="field-task-pomodoros">Est. Pomodoros:</label>
+                    <input type="number" id="field-task-pomodoros" value="2" min="1" max="20" class="form-control">
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group flex-1">
+                    <label for="field-task-origin">Origem / Matéria:</label>
+                    <input type="text" id="field-task-origin" placeholder="Ex: Site de questões, PDF, Youtube"
+                      class="form-control">
+                  </div>
+                  <div class="form-group flex-1">
+                    <label for="field-task-status">Status Inicial:</label>
+                    <select id="field-task-status" class="form-control">
+                      <option value="A fazer" selected>A fazer</option>
+                      <option value="Fazendo hoje">Fazendo hoje</option>
+                      <option value="Travado / pendente">Travado / pendente</option>
+                      <option value="Concluido">Concluído</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="field-task-notes">Observações / Links úteis:</label>
+                  <textarea id="field-task-notes" placeholder="Algum detalhe adicional?" rows="3"
+                    class="form-control"></textarea>
+                </div>
+
+                <div class="modal-actions">
+                  <button type="button" class="btn btn-secondary" id="btn-cancel-task">Cancelar</button>
+                  <button type="submit" class="btn btn-success" id="btn-save-task">Salvar Tarefa</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================== ABA: CRONOGRAMA ==================== -->
+        <section id="tab-schedule" class="tab-pane">
+          <div class="panel glass-panel">
+            <div class="panel-header">
+              <h3>📅 Planejamento Semanal de Estudos</h3>
+              <span class="help-text">Origem: 01_Planejamento_de_Horarios/planejamento_semanal.csv</span>
+            </div>
+            <div class="panel-body">
+              <p class="help-text" style="margin-bottom: 20px;">Veja os seus blocos planejados de estudo. O dia da
+                semana atual fica automaticamente iluminado!</p>
+
+              <div class="weekly-schedule-grid" id="weekly-schedule-container">
+                <!-- Preenchido via Javascript com cards elegantes dos dias -->
+                <div class="loading-item">Carregando cronograma...</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================== ABA: DIÁRIO DE ESTUDOS ==================== -->
+        <section id="tab-diary" class="tab-pane">
+          <div class="diary-layout">
+
+            <!-- Logger Form -->
+            <div class="diary-form-side">
+              <div class="panel glass-panel">
+                <div class="panel-header">
+                  <h3>📝 Fechamento de Dia de Estudo</h3>
+                </div>
+                <div class="panel-body">
+                  <p class="help-text" style="margin-bottom: 15px;">Ao finalizar sua rotina de estudos de hoje, faça o
+                    registro do seu diário de estudos. O sistema calcula automaticamente o tempo líquido e pomodoros
+                    baseado no seu timer de hoje!</p>
+
+                  <form id="diary-form">
+                    <div class="form-group">
+                      <label for="diary-date">Data do Registro:</label>
+                      <input type="date" id="diary-date" required class="form-control">
+                    </div>
+
+                    <div class="form-row">
+                      <div class="form-group flex-1">
+                        <label for="diary-minutes">Tempo Líquido:*</label>
+                        <input type="text" id="diary-minutes" placeholder="Ex: 150 min" required class="form-control">
+                      </div>
+                      <div class="form-group flex-1">
+                        <label for="diary-pomodoros">Qtd. Pomodoros:*</label>
+                        <input type="number" id="diary-pomodoros" min="0" required class="form-control">
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="diary-studied">O que foi estudado hoje (separados por ponto e vírgula):</label>
+                      <textarea id="diary-studied" placeholder="Ex: Análise Morfológica; Resolução de 20 questões"
+                        rows="2" class="form-control"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="diary-completed">O que foi concluído hoje (entregas de tarefas):</label>
+                      <textarea id="diary-completed" placeholder="Ex: Assistir videoaulas do Gran Cursos" rows="2"
+                        class="form-control"></textarea>
+                    </div>
+
+                    <div class="form-row">
+                      <div class="form-group flex-1">
+                        <label for="diary-difficulty">Dificuldade geral observada:</label>
+                        <select id="diary-difficulty" class="form-control">
+                          <option value="Fácil">🟢 Fácil</option>
+                          <option value="Média" selected>🟡 Média</option>
+                          <option value="Difícil">🔴 Difícil</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="diary-next-step">Próximo Passo / Planejado para Amanhã:</label>
+                      <input type="text" id="diary-next-step" placeholder="Ex: Estudar Banco de Dados SQL"
+                        class="form-control">
+                    </div>
+
+                    <button type="submit" class="btn btn-success btn-full" id="btn-save-diary"
+                      style="margin-top: 10px;">
+                      💾 Gravar Diário de Estudo
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+            <!-- History List -->
+            <div class="diary-history-side">
+              <div class="panel glass-panel">
+                <div class="panel-header">
+                  <h3>📜 Diários de Estudo Anteriores</h3>
+                </div>
+                <div class="panel-body" style="padding: 0;">
+                  <div class="diary-history-list" id="diary-history-container">
+                    <!-- Dinâmico -->
+                    <div class="loading-item" style="padding: 20px;">Carregando histórico...</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+      </div>
+
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+
+</html>
