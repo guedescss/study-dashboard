@@ -87,7 +87,7 @@ O design do painel conta com uma experiência imersiva com efeitos neon, micro-a
 
 5. **Acesse no navegador**:
    Abra [http://localhost:3000](http://localhost:3000) e comece a turbinar os seus estudos!
-   Deploy: [https://study-dashboard-production.up.railway.app/](https://study-dashboard-production.up.railway.app/)
+   Deploy: [https://study-dashboard-t607.onrender.com/](https://study-dashboard-t607.onrender.com/)
 
 ---
 
