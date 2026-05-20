@@ -9,13 +9,14 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Caminhos dos arquivos de dados
-const PATH_SCHEDULE = path.join(__dirname, '../01_Planejamento_de_Horarios/planejamento_semanal.csv');
-const PATH_POMODORO = path.join(__dirname, '../02_Pomodoro_e_Horas/controle_pomodoro.csv');
-const PATH_TASKS_CSV = path.join(__dirname, '../03_Tarefas_de_Estudo/tasks_estudo.csv');
-const PATH_KANBAN_MD = path.join(__dirname, '../03_Tarefas_de_Estudo/kanban_simples.md');
-const PATH_DIARY_CSV = path.join(__dirname, '../04_Registro_do_Que_Foi_Estudado/diario_de_estudo.csv');
-const PATH_HISTORY_MD = path.join(__dirname, '../04_Registro_do_Que_Foi_Estudado/historico_concluido.md');
-const PATH_FREQUENCY_CSV = path.join(__dirname, '../01_Planejamento_de_Horarios/frequencia_mensal.csv');
+const DATA_DIR = path.join(__dirname, 'data');
+const PATH_SCHEDULE = path.join(DATA_DIR, '01_Planejamento_de_Horarios', 'planejamento_semanal.csv');
+const PATH_POMODORO = path.join(DATA_DIR, '02_Pomodoro_e_Horas', 'controle_pomodoro.csv');
+const PATH_TASKS_CSV = path.join(DATA_DIR, '03_Tarefas_de_Estudo', 'tasks_estudo.csv');
+const PATH_KANBAN_MD = path.join(DATA_DIR, '03_Tarefas_de_Estudo', 'kanban_simples.md');
+const PATH_DIARY_CSV = path.join(DATA_DIR, '04_Registro_do_Que_Foi_Estudado', 'diario_de_estudo.csv');
+const PATH_HISTORY_MD = path.join(DATA_DIR, '04_Registro_do_Que_Foi_Estudado', 'historico_concluido.md');
+const PATH_FREQUENCY_CSV = path.join(DATA_DIR, '01_Planejamento_de_Horarios', 'frequencia_mensal.csv');
 
 // ==========================================
 // AUTO-INICIALIZAÇÃO PARA DEPLOY EM NUVEM
